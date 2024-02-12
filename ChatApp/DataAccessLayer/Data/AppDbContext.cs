@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using SignalRTest.Models;
+using ChatApp.Models;
 
-namespace SignalRTest.Data
+namespace ChatApp.DataAccessLayer.Data
 {
     public class AppDbContext : DbContext
     {

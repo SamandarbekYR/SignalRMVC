@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "@microsoft/signalr": "^8.0.0",
+    "flowbite": "^2.2.1"
+  }
+}

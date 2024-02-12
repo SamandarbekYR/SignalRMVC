@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.SignalR;
 
-namespace SignalRTest.Hubs
+namespace ChatApp.Hubs
 {
     public class SendMessage : Hub
     {
@@ -16,7 +16,7 @@ namespace SignalRTest.Hubs
 
         public async Task SendMessageToAll(string fullName, string message)
         {
-            await Clients.Others.SendAsync("ReceiveMessage", $"{fullName}: {message}");
+            await Clients.All.SendAsync("ReceiveMessage",fullName ,message);
         }
 
         public async Task SendMessageToUser(string fullName, string message, string connectionId)
