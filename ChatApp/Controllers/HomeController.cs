@@ -36,9 +36,28 @@ namespace ChatApp.Controllers
         }
         public IActionResult Add(UserRegister userRegister)
         {
+            if (userRegister.Phone[0] != '+')
+            {
+                return RedirectToAction("Register");
+            }
+            for(int i = 1; i < userRegister.Phone.Length; i++)
+            {
+                if (char.IsDigit(userRegister.Phone[i]))
+                {
+                    continue;
+                }
+                return RedirectToAction("Register");
+            }
+            if(userRegister.Password.Length < 8 || userRegister.Phone.Length != 13)
+            {
+                return RedirectToAction("Register");
+            }
             int result = _userService.Register(userRegister);
-            if(result>=0)
+            if (result >= 0)
+            {
                 _logger.LogInformation("Malumotlar qo'shildi");
+                return RedirectToAction("Login");
+            }
             else
             {
                 _logger.LogInformation("Malumotlar qo'shishda xatolik yuz berdi");
@@ -52,9 +71,10 @@ namespace ChatApp.Controllers
         public IActionResult SignIn(UserLogin user)
         {
             Users result = _userService.Login(user);
-            if (result == null)
+            if (result.Id == 0)
             {
                 _logger.LogInformation("Tizimga kirishda xatolik yuz berdi");
+                return RedirectToAction("Register");
             }
             else
             {
@@ -67,9 +87,17 @@ namespace ChatApp.Controllers
         {
             return View();
         }
-
+        [HttpGet]
         public IActionResult ResetPassword()
         {
+            return View();
+        }
+        [HttpPost]
+        public IActionResult ResetPassword(ResetPasword res)
+        {
+            var result = _userService.ResetParol(res);
+            if(result)
+                return RedirectToAction("Login");
             return View();
         }
         public IActionResult OTP()

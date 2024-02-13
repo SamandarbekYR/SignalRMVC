@@ -53,5 +53,21 @@ namespace ChatApp.DataAccessLayer.Servcie
             var users = await _dbContext.Users.ToListAsync();
             return users;
         }
+
+        public bool ResetParol(ResetPasword res)
+        {
+            var user =  _dbContext.Users.FirstOrDefault(x => x.Phone == res.phone);
+            if(user!= null)
+            {
+                user.Password = res.password;
+                _dbContext.Users.Update(user);
+                _dbContext.SaveChanges();
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
     }
 }
