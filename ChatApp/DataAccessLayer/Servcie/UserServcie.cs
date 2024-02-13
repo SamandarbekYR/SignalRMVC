@@ -16,7 +16,7 @@ namespace ChatApp.DataAccessLayer.Servcie
         }
         public int Register(UserRegister request)
         {
-            var user = _dbContext.Users.FirstOrDefault(u => u.Email == request.Email);
+            var user = _dbContext.Users.FirstOrDefault(u => u.Phone == request.Phone);
             if (user != null)
             {
                 return 0;
@@ -24,7 +24,7 @@ namespace ChatApp.DataAccessLayer.Servcie
             var newUser = new Users
             {
                 Name = request.Name,
-                Email = request.Email,
+                Phone = request.Phone,
                 Password = request.Password
             };
             _dbContext.Users.Add(newUser);
@@ -33,7 +33,7 @@ namespace ChatApp.DataAccessLayer.Servcie
 
         public Users Login(UserLogin request)
         {
-            var user = _dbContext.Users.FirstOrDefault(u => u.Email == request.Email);
+            var user = _dbContext.Users.FirstOrDefault(u => u.Phone == request.Phone);
 
             if (user == null)
             {

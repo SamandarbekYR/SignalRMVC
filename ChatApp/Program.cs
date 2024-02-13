@@ -8,6 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddSignalR();
 builder.Services.AddTransient<IUser,UserServcie>();
+builder.Services.AddTransient<ISMSSender,SMSSenderService>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -27,6 +28,6 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{controller=Home}/{action=Login}/{id?}");
 app.MapHub<SendMessage>("/chatHub");
 app.Run();

@@ -7,5 +7,6 @@ namespace ChatApp.DataAccessLayer.Interface
         int Register(UserRegister users);
         Users Login(UserLogin user);
         Task<List<Users>> GetUsers();
+        //bool ResetPassword(UserLogin user);
     }
 }

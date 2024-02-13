@@ -14,7 +14,6 @@ html {
 
 html {
   position: relative;
-  min-height: 100%;
 }
 
 body {
@@ -23,4 +22,10 @@ body {
 
 .submitbutton{
     background-color:blue!important;
+}
+
+.sectionContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }

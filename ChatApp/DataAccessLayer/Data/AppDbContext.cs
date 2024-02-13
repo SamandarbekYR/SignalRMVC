@@ -12,7 +12,7 @@ namespace ChatApp.DataAccessLayer.Data
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlite("DataSource =SignalRWPF.db ");
+            optionsBuilder.UseSqlite("DataSource =SignalRMVC.db ");
             base.OnConfiguring(optionsBuilder);
         }
 
