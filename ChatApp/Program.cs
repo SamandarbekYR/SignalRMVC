@@ -1,5 +1,6 @@
+using ChatApp.DataAccessLayer.Data;
 using ChatApp.DataAccessLayer.Interface;
-using ChatApp.DataAccessLayer.Servcie;
+using ChatApp.DataAccessLayer.Repositories;
 using ChatApp.Hubs;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -7,7 +8,11 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddSignalR();
-builder.Services.AddTransient<IUser,UserServcie>();
+builder.Services.AddTransient<IUser,UserRepository>();
+builder.Services.AddSingleton(app => new AppDbContext(
+        builder.Configuration.GetConnectionString("MongoDB")!,
+        builder.Configuration.GetConnectionString("Database")!
+    ));
 builder.Services.AddTransient<ISMSSender,SMSSenderService>();
 var app = builder.Build();
 
