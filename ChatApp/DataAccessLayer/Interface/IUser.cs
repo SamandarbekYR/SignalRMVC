@@ -4,9 +4,9 @@ namespace ChatApp.DataAccessLayer.Interface
 {
     public interface IUser
     {
-        int Register(UserRegister users);
-        Users Login(UserLogin user);
-        Task<List<Users>> GetUsers();
-        bool ResetParol(ResetPasword res);
+        Task Add(Users user);
+        Task<bool> Update(Users user, string id);
+        Task Delete(string id);
+        Task<IEnumerable<Users>> GetAll();
     }
 }

@@ -1,20 +1,18 @@
-﻿using Microsoft.EntityFrameworkCore;
-using ChatApp.Models;
+﻿using ChatApp.Models;
+using MongoDB.Driver;
 
 namespace ChatApp.DataAccessLayer.Data
 {
-    public class AppDbContext : DbContext
-    {
-        public DbSet<Users> Users { get; set; }
-        public AppDbContext()
+    public class AppDbContext
+    {  
+        public IMongoDatabase Database { get; set; }
+        public AppDbContext(string connectionString, string database)
         {
-            Database.EnsureCreated();
-        }
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            optionsBuilder.UseSqlite("DataSource =SignalRMVC.db ");
-            base.OnConfiguring(optionsBuilder);
+            var connection = new MongoClient(connectionString);
+            Database = connection.GetDatabase(database);  
         }
 
+        public IMongoCollection<Users> User =>
+            Database.GetCollection<Users>("Users");
     }
 }

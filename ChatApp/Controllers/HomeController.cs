@@ -34,53 +34,20 @@ namespace ChatApp.Controllers
             //await Console.Out.WriteLineAsync(a.ToString());
             return View();
         }
-        public IActionResult Add(UserRegister userRegister)
+        public async Task<IActionResult> Add(UserRegister userRegister)
         {
-            if (userRegister.Phone[0] != '+')
-            {
-                return RedirectToAction("Register");
-            }
-            for(int i = 1; i < userRegister.Phone.Length; i++)
-            {
-                if (char.IsDigit(userRegister.Phone[i]))
-                {
-                    continue;
-                }
-                return RedirectToAction("Register");
-            }
-            if(userRegister.Password.Length < 8 || userRegister.Phone.Length != 13)
-            {
-                return RedirectToAction("Register");
-            }
-            int result = _userService.Register(userRegister);
-            if (result >= 0)
-            {
-                _logger.LogInformation("Malumotlar qo'shildi");
-                return RedirectToAction("Login");
-            }
-            else
-            {
-                _logger.LogInformation("Malumotlar qo'shishda xatolik yuz berdi");
-            }
+            Users users = userRegister;
+            await _userService.Add(users);
             return RedirectToAction("Register");
         }
+
         public IActionResult Login()
         {
             return View();
         }
         public IActionResult SignIn(UserLogin user)
         {
-            Users result = _userService.Login(user);
-            if (result.Id == 0)
-            {
-                _logger.LogInformation("Tizimga kirishda xatolik yuz berdi");
-                return RedirectToAction("Register");
-            }
-            else
-            {
-
-                _logger.LogInformation($"Tizimga kirdi {result!.Name}");
-            }
+            
             return RedirectToAction("ChatMessage");
         }
         public IActionResult ChatMessage()
@@ -95,9 +62,6 @@ namespace ChatApp.Controllers
         [HttpPost]
         public IActionResult ResetPassword(ResetPasword res)
         {
-            var result = _userService.ResetParol(res);
-            if(result)
-                return RedirectToAction("Login");
             return View();
         }
         public IActionResult OTP()
